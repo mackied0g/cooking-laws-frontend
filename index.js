@@ -52,33 +52,22 @@ function moreRecipeInfoFetch(lawId, recipeId){
                     if(obj.id == recipeId ){
                       let recipe = obj
                     const liForRecipe = document.createElement('li');
+                    const br = document.createElement('br');
                     const divTagForRecipe = document.createElement("div");
                     divTagForRecipe.dataset.id = recipe.id
+                    br;
                     liForRecipe.innerText += recipe.description
-                    liForRecipe.innerText += recipe.yield
+                    // liForRecipe.innerText += recipe.yield
+                    br;
                     liForRecipe.innerText += recipe.ingredients
+                    br;
                     liForRecipe.innerText += recipe.instructions
+                    br;
                     divTagForRecipe.append(liForRecipe)
                     document.getElementById(`${recipeId}`).append(divTagForRecipe)
                       
                     }
                   })
-                
-                    //the specific reciple they clicked 
-                // debugger
-                // recipeOfLawObject.forEach(singleRecipeObject => {
-                //     debugger
-                //     const liForRecipe = document.createElement('li');
-                //     const divTagForRecipe = document.createElement("div");
-                //     liForRecipe.setAttribute("id", `${singleRecipeObject.id}`)
-                //     liForRecipe.innerText += singleRecipeObject.description
-                //     liForRecipe.innerText += singleRecipeObject.yield
-                //     liForRecipe.innerText += singleRecipeObject.ingredients
-                //     liForRecipe.innerText += singleRecipeObject.instructions
-                //     divTagForRecipe.append(liForRecipe)
-                //     // debugger
-                //     document.getElementById(`${lawId}`).append(divTagForRecipe)
-                // })
             })
 }
 

@@ -1,7 +1,13 @@
+
+
 .law{
-    background-color: bisque
+    font-size: x-large
 }
 
 .recipe{
-    background-color: blanchedalmond
+    font-size: smaller
+}
+
+[data-id] {
+    font-size: smaller
 }
