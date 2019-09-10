@@ -16,23 +16,24 @@ function renderLaws(dataLaw) {
     // console.log(dataLaw) //each dataLaw has nested array of recipes
     // debugger
        dataLaw.forEach(function(law) {
-        const divTagForLaw = document.createElement("div");
-        const br = document.createElement('br');
-        const li = document.createElement('li');
-        // console.log(divTagForLaw, "hello from line 22")
-        divTagForLaw.innerText = law.name;
-        const recipesForLaw = law.recipes
-        // console.log(dataLaw)
-        recipesForLaw.forEach(recipe => {
-            // console.log(recipe.name)
-            li.innerHTML = recipe.name
-            divTagForLaw.append(li)
+            const divTagForLaw = document.createElement("div");
+            const br = document.createElement('br');
+            const li = document.createElement('li');
+            // console.log(divTagForLaw, "hello from line 22")
+            divTagForLaw.innerText = law.name;
+            const recipesForLaw = law.recipes
+            // console.log(dataLaw)
+            recipesForLaw.forEach(recipeObject => {
+                // console.log(recipe.name)
+                li.innerHTML += recipeObject.name
+                divTagForLaw.append(li)
         })
         // debugger
         console.log(law.name)
-        // console.log(lawRecipes) //array of Recipe objects!
+        // console.log(recipesForLaw) //array of Recipe objects!
         ulLaws.append(br)
         ulLaws.append(divTagForLaw)
+        divTagForLaw.append(recipesForLaw)
         
 
         //create a function onClick to display recipes associated with each law
