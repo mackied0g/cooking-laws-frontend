@@ -16,6 +16,8 @@ function renderLaws(dataLaw) {
     });
 }
 
+// document.querySelector("#ul-of-laws").addEventListener("click", renderRecipes());
+
 // now fetch the recipes
 fetch(`http://localhost:3000/recipes`)
     .then(resp => resp.json())
@@ -23,21 +25,43 @@ fetch(`http://localhost:3000/recipes`)
 
 // render the recipes fetched 
 function renderRecipes(dataRecipe) {
+    // console.log(dataRecipe)
     dataRecipe.forEach(function(recipe) {
+        // console.log(recipe)
+        const liRecipeMoreInfo = document.createElement("li");
+        liRecipeMoreInfo.innerHTML = recipe.description;
+        ulRecipes.append(liRecipeMoreInfo)
+    });
+}
+
+
+
+// now fetch a specific recipe object
+fetch(`http://localhost:3000/recipes/`) //add/id?
+    .then(resp => resp.json())
+    .then(dataOfOneRecipe => renderOneRecipe(dataOfOneRecipe))
+
+// render the specific recipe object fetched 
+function renderOneRecipe(dataOfOneRecipe) {
+    dataOfOneRecipe.forEach(function(Onerecipe) {
         const liRecipe = document.createElement("li");
-        liRecipe.innerHTML = recipe.name;
+        liRecipe.innerHTML = Onerecipe.name;
         ulRecipes.append(liRecipe)
     });
 }
 
-function expandRecipes(dataRecipe) {
-    dataRecipe.forEach(function(recipe){
-        const expandDataRecipe = document.createElement("li");
-        expandDataRecipe.innerHTML = recipe;
-        ulRecipes.append(expandDataRecipe)
-        console.log(ulRecipes)
-    });
-}
-// document.getElementById("li").addEventListener("click", renderRecipes());
-// function renderRecipes(dataRecipe) {
+
+
+
+
+// function expandRecipes(dataRecipe) {
+//     dataRecipe.forEach(function(recipe){
+//         const expandDataRecipe = document.createElement("li");
+//         expandDataRecipe.innerHTML = recipe;
+//         ulRecipes.append(expandDataRecipe)
+//         console.log(ulRecipes)
+//     });
 // }
+
+// // function renderRecipes(dataRecipe) {
+// // }
