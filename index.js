@@ -22,24 +22,23 @@ function renderLaws(dataLaw) {
             // console.log(divTagForLaw, "hello from line 22")
             divTagForLaw.innerText = law.name;
             const recipesForLaw = law.recipes
+            console.log(recipesForLaw) //array of Recipe objects
             // console.log(dataLaw)
-            recipesForLaw.forEach(recipeObject => {
-                // console.log(recipe.name)
-                li.innerHTML += recipeObject.name
+
+            //nested forEach to iterate through Recipe objects
+            recipesForLaw.forEach(singleRecipeObject => {
+                //I need to create an li for each recipesForLaw
+                li.innerText += singleRecipeObject.name
                 divTagForLaw.append(li)
         })
         // debugger
-        console.log(law.name)
+        // console.log(law.name)
         // console.log(recipesForLaw) //array of Recipe objects!
         ulLaws.append(br)
         ulLaws.append(divTagForLaw)
         divTagForLaw.append(recipesForLaw)
         
-
         //create a function onClick to display recipes associated with each law
-        
-
-
     });
 }
 
