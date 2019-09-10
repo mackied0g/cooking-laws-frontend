@@ -53,13 +53,13 @@ function moreRecipeInfoFetch(lawId, recipeId){
                       let recipe = obj
                     const liForRecipe = document.createElement('li');
                     const divTagForRecipe = document.createElement("div");
-                    liForRecipe.setAttribute("id", `${recipe.id}`)
+                    divTagForRecipe.dataset.id = recipe.id
                     liForRecipe.innerText += recipe.description
                     liForRecipe.innerText += recipe.yield
                     liForRecipe.innerText += recipe.ingredients
                     liForRecipe.innerText += recipe.instructions
                     divTagForRecipe.append(liForRecipe)
-                    document.getElementById(`${lawId}`).append(divTagForRecipe)
+                    document.getElementById(`${recipeId}`).append(divTagForRecipe)
                       
                     }
                   })
