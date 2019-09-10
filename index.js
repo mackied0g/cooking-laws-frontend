@@ -47,25 +47,38 @@ function moreRecipeInfoFetch(lawId, recipeId){
             .then(lawObject => {
                 let recipeOfLawObject = lawObject.recipes
              
-                recipeOfLawObject.forEach((obj)=> {
+                recipeOfLawObject.forEach((obj) => {
                     
                     if(obj.id == recipeId ){
-                      let recipe = obj
-                    const liForRecipe = document.createElement('li');
-                    const br = document.createElement('br');
-                    const divTagForRecipe = document.createElement("div");
-                    divTagForRecipe.dataset.id = recipe.id
-                    br;
-                    liForRecipe.innerText += recipe.description
-                    // liForRecipe.innerText += recipe.yield
-                    br;
-                    liForRecipe.innerText += recipe.ingredients
-                    br;
-                    liForRecipe.innerText += recipe.instructions
-                    br;
-                    divTagForRecipe.append(liForRecipe)
-                    document.getElementById(`${recipeId}`).append(divTagForRecipe)
-                      
+                        let recipe = obj
+                        const liForRecipe = document.createElement('li');
+                        const br = document.createElement('br');
+                        const divTagForRecipe = document.createElement("div");
+                        divTagForRecipe.dataset.id = recipe.id
+
+                        pTagForDescription = document.createElement("p");
+                        pTagForDescription.innerText = recipe.description
+                        pTagForDescription.setAttribute("class", `pTagForDescription`)
+                        // liForRecipe.innerText += recipe.description
+
+                        // liForRecipe.innerText += recipe.yield
+
+                        pTagForIngredients = document.createElement("p");
+                        pTagForIngredients.innerText = recipe.ingredients
+                        pTagForIngredients.setAttribute("class", `pTagForIngredients`)
+                        // liForRecipe.innerText += recipe.ingredients
+
+                        pTagForInstructions = document.createElement("p");
+                        pTagForInstructions.innerText = recipe.instructions
+                        pTagForInstructions.setAttribute("class", `pTagForInstructions`)
+                        // liForRecipe.innerText += recipe.instructions
+
+                        divTagForRecipe.append(liForRecipe)
+                        document.getElementById(`${recipeId}`).append(divTagForRecipe)
+                    
+                        liForRecipe.appendChild(pTagForDescription)
+                        liForRecipe.appendChild(pTagForIngredients)
+                        liForRecipe.appendChild(pTagForInstructions)
                     }
                   })
             })
@@ -92,8 +105,3 @@ function renderLaws(dataLaw) {
             ulLaws.append(divTagForLaw)
     });
 }
-
-
-
-// DOMContentLoaded
-// })
