@@ -1,23 +1,20 @@
 const loginForm = document.querySelector('#div')
-
+const ulLaws = document.querySelector("#ul-of-laws");
+const ulRecipes = document.querySelector("#ul-of-recipes");
 // fetching from my API for the laws
 
 fetch(`http://localhost:3000/laws`)
     .then(resp => resp.json())
     .then(data => renderLaws(data))
 
-const ul = document.querySelector("#ul-of-laws");
-    // document.body.append(ul);
-
 // taking the fetch request and rendering it to the DOM
 function renderLaws(data) {
     data.forEach(function(law) {
         const li = document.createElement("li");
         li.innerHTML = law.name;
-        ul.append(li)
+        ulLaws.append(li)
     });
 }
-
 
 // now fetch the recipes
 fetch(`http://localhost:3000/recipes`)
@@ -27,9 +24,9 @@ fetch(`http://localhost:3000/recipes`)
 // render the recipes fetched 
 function renderRecipes(dataRecipe) {
     dataRecipe.forEach(function(recipe) {
-        const li = document.createElement("li");
-        li.innerHTML = recipe.name;
-        ul.append(li)
+        const liRecipe = document.createElement("li");
+        liRecipe.innerHTML = recipe.name;
+        ulRecipes.append(liRecipe)
     });
 }
 
