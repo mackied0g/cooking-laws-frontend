@@ -18,3 +18,21 @@ function renderLaws(data) {
     });
 }
 
+
+// now fetch the recipes
+fetch(`http://localhost:3000/recipes`)
+    .then(resp => resp.json())
+    .then(dataRecipe => renderRecipes(dataRecipe))
+
+// render the recipes fetched 
+function renderRecipes(dataRecipe) {
+    dataRecipe.forEach(function(recipe) {
+        const li = document.createElement("li");
+        li.innerHTML = recipe.name;
+        ul.append(li)
+    });
+}
+
+// document.getElementById("li").addEventListener("click", renderRecipes());
+// function renderRecipes(dataRecipe) {
+// }
