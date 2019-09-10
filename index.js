@@ -12,6 +12,8 @@ function renderLaws(dataLaw) {
     dataLaw.forEach(function(law) {
         const li = document.createElement("li");
         li.innerHTML = law.name;
+        var br = document.createElement('br');
+        ulLaws.append(br)
         ulLaws.append(li)
     });
 }
@@ -30,6 +32,8 @@ function renderRecipes(dataRecipe) {
         // console.log(recipe)
         const liRecipeMoreInfo = document.createElement("li");
         liRecipeMoreInfo.innerHTML = recipe.description;
+        var br = document.createElement('br');
+        ulRecipes.append(br)
         ulRecipes.append(liRecipeMoreInfo)
     });
 }
@@ -37,16 +41,18 @@ function renderRecipes(dataRecipe) {
 
 
 // now fetch a specific recipe object
-fetch(`http://localhost:3000/recipes/`) //add/id?
+fetch(`http://localhost:3000/recipes/`) //add../id?
     .then(resp => resp.json())
     .then(dataOfOneRecipe => renderOneRecipe(dataOfOneRecipe))
 
 // render the specific recipe object fetched 
 function renderOneRecipe(dataOfOneRecipe) {
-    dataOfOneRecipe.forEach(function(Onerecipe) {
+    dataOfOneRecipe.forEach(function(oneRecipe) {
         const liRecipe = document.createElement("li");
-        liRecipe.innerHTML = Onerecipe.name;
+        var br = document.createElement('br');
+        liRecipe.innerHTML = oneRecipe.name;
         ulRecipes.append(liRecipe)
+        ulRecipes.append(br)
     });
 }
 
