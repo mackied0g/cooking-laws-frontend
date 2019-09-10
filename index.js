@@ -1,6 +1,10 @@
 // const loginForm = document.querySelector('#div')
 const ulLaws = document.querySelector("#ul-of-laws");
-const ulRecipes = document.querySelector("#ul-of-recipes");
+
+
+
+document.addEventListener("DOMContentLoaded", function(){
+
 
 // fetching from my API for the laws
 fetch(`http://localhost:3000/laws`)
@@ -9,65 +13,78 @@ fetch(`http://localhost:3000/laws`)
 
 // taking the fetch request and rendering it to the DOM
 function renderLaws(dataLaw) {
-    dataLaw.forEach(function(law) {
-        const li = document.createElement("li");
-        li.innerHTML = law.name;
-        var br = document.createElement('br');
+    // console.log(dataLaw) //each dataLaw has nested array of recipes
+    // debugger
+       dataLaw.forEach(function(law) {
+        const divTagForLaw = document.createElement("div");
+        const br = document.createElement('br');
+        const li = document.createElement('li');
+        // console.log(divTagForLaw, "hello from line 22")
+        divTagForLaw.innerText = law.name;
+        const recipesForLaw = law.recipes
+        // console.log(dataLaw)
+        recipesForLaw.forEach(recipe => {
+            // console.log(recipe.name)
+            li.innerHTML = recipe.name
+            divTagForLaw.append(li)
+        })
+        // debugger
+        console.log(law.name)
+        // console.log(lawRecipes) //array of Recipe objects!
         ulLaws.append(br)
-        ulLaws.append(li)
+        ulLaws.append(divTagForLaw)
+        
+
+        //create a function onClick to display recipes associated with each law
+        
+
+
     });
 }
 
 // document.querySelector("#ul-of-laws").addEventListener("click", renderRecipes());
 
-// now fetch the recipes
-fetch(`http://localhost:3000/recipes`)
-    .then(resp => resp.json())
-    .then(dataRecipe => renderRecipes(dataRecipe))
+// // now fetch the recipes
+// fetch(`http://localhost:3000/recipes`)
+//     .then(resp => resp.json())
+//     .then(dataRecipe => renderRecipes(dataRecipe))
 
-// render the recipes fetched 
-function renderRecipes(dataRecipe) {
-    // console.log(dataRecipe)
-    dataRecipe.forEach(function(recipe) {
-        // console.log(recipe)
-        const liRecipeMoreInfo = document.createElement("li");
-        liRecipeMoreInfo.innerHTML = recipe.description;
-        var br = document.createElement('br');
-        ulRecipes.append(br)
-        ulRecipes.append(liRecipeMoreInfo)
-    });
-}
-
-
-
-// now fetch a specific recipe object
-fetch(`http://localhost:3000/recipes/`) //add../id?
-    .then(resp => resp.json())
-    .then(dataOfOneRecipe => renderOneRecipe(dataOfOneRecipe))
-
-// render the specific recipe object fetched 
-function renderOneRecipe(dataOfOneRecipe) {
-    dataOfOneRecipe.forEach(function(oneRecipe) {
-        const liRecipe = document.createElement("li");
-        var br = document.createElement('br');
-        liRecipe.innerHTML = oneRecipe.name;
-        ulRecipes.append(liRecipe)
-        ulRecipes.append(br)
-    });
-}
-
-
-
-
-
-// function expandRecipes(dataRecipe) {
-//     dataRecipe.forEach(function(recipe){
-//         const expandDataRecipe = document.createElement("li");
-//         expandDataRecipe.innerHTML = recipe;
-//         ulRecipes.append(expandDataRecipe)
-//         console.log(ulRecipes)
+// // render the recipes fetched 
+// function renderRecipes(dataRecipe) {
+//     // console.log(dataRecipe)
+//     dataRecipe.forEach(function(recipe) {
+//         // console.log(recipe)
+//         const liRecipeName = document.createElement("li");
+//         const br = document.createElement('br');
+//         liRecipeName.innerHTML = recipe.name;
+//         console.log(liRecipeName, "hello from line 37")
+//         ulRecipes.append(liRecipeName)
+//         ulRecipes.append(br)
+//         ulRecipes.append(br)
 //     });
 // }
 
-// // function renderRecipes(dataRecipe) {
-// // }
+// now fetch a specific recipe object
+// fetch(`http://localhost:3000/recipes/`) //add../id?
+//     .then(resp => resp.json())
+//     .then(dataOfOneRecipe => renderOneRecipe(dataOfOneRecipe))
+
+// // render the specific recipe object fetched 
+// function renderOneRecipe(dataOfOneRecipe) {
+//     dataOfOneRecipe.forEach(function(oneRecipe) {
+//         const liRecipeMoreInfo = document.createElement("li");
+//         const br = document.createElement('br');
+//         liRecipeMoreInfo.innerHTML = oneRecipe.description;
+//         console.log(liRecipeMoreInfo, "hello from line 57")
+//         ulRecipes.append(liRecipeMoreInfo)
+//         ulRecipes.append(br)
+//     });
+// }
+
+
+// ulLaws.addEventListener("click", function(event){ //ul is stable parent
+
+
+
+// DOMContentLoaded
+})
