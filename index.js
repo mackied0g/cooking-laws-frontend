@@ -10,28 +10,23 @@ function handleClicks() {
         let lawId = event.target.id;
         lawRecipeFetch(lawId)
     }
-        else if (event.target.id && event.target.classList == "recipe") { 
-            
+        else if (event.target.id && event.target.classList == "recipe") {  
             let lawId = event.target.parentElement.parentElement.id
             let recipeId = event.target.id
-
            moreRecipeInfoFetch(lawId, recipeId)
         }
 }
-// document.addEventListener("DOMContentLoaded", function(){
 
 
 function lawRecipeFetch(lawId){
     fetch(`http://localhost:3000/laws/${lawId}`)
             .then(resp => resp.json())
             .then(law => {
-                // console.log(law.recipes)
                 law.recipes.forEach(singleRecipeObject => {
                     const liTagForRecipe = document.createElement('li');
                     const divTagForLaw = document.createElement("div");
                     liTagForRecipe.setAttribute("id", `${singleRecipeObject.id}`)
                     liTagForRecipe.setAttribute("class", `recipe`)
-                    // console.log(singleRecipeObject.name)
                     liTagForRecipe.innerText += singleRecipeObject.name
                     divTagForLaw.append(liTagForRecipe)
                     document.getElementById(`${law.id}`).append(divTagForLaw)
@@ -61,6 +56,9 @@ function moreRecipeInfoFetch(lawId, recipeId){
                         pTagForDescription.setAttribute("class", `pTagForDescription`)
                         // liForRecipe.innerText += recipe.description
 
+                        pTagForYield = document.createElement("p");
+                        pTagForYield.innerText = recipe.yield 
+                        pTagForYield.setAttribute("class", `pTagForYield`)
                         // liForRecipe.innerText += recipe.yield
 
                         pTagForIngredients = document.createElement("p");
@@ -79,6 +77,7 @@ function moreRecipeInfoFetch(lawId, recipeId){
                         liForRecipe.appendChild(pTagForDescription)
                         liForRecipe.appendChild(pTagForIngredients)
                         liForRecipe.appendChild(pTagForInstructions)
+                        liForRecipe.appendChild(pTagForYield)
                     }
                   })
             })
