@@ -1,5 +1,8 @@
-// const commentForm = document.getElementById('newcomment');
+// const commentForm = document.querySelector('newcomment');
 const ulLaws = document.querySelector(".list-of-laws");
+const lawsURL = `http://localhost:3000/laws`;
+const recipesURL = `http://localhost:3000/recipes`;
+const commentsURL = `http://localhost:3000/comments`;
 
 document.addEventListener("click", () => {
     handleClicks()
@@ -14,13 +17,17 @@ function handleClicks() {
         else if (event.target.id && event.target.classList == "recipe") {  
             let lawId = event.target.parentElement.parentElement.id
             let recipeId = event.target.id
-           moreRecipeInfoFetch(lawId, recipeId)
+
+
+            moreRecipeInfoFetch(lawId, recipeId)
+
+
         }
 }
 
 
 function lawRecipeFetch(lawId){
-    fetch(`http://localhost:3000/laws/${lawId}`)
+    fetch(`${lawsURL}/${lawId}`)
         .then(resp => resp.json())
         .then(law => {
             law.recipes.forEach(singleRecipeObject => {
@@ -38,7 +45,7 @@ function lawRecipeFetch(lawId){
 
 
 function moreRecipeInfoFetch(lawId, recipeId){
-    fetch(`http://localhost:3000/laws/${lawId}`)
+    fetch(`${lawsURL}/${lawId}`)
         .then(resp => resp.json())
         .then(lawObject => {
             let recipeOfLawObject = lawObject.recipes
@@ -49,6 +56,7 @@ function moreRecipeInfoFetch(lawId, recipeId){
                 const pTagForRecipe = document.createElement('p');
                 const divTagForRecipe = document.createElement("div");
                 divTagForRecipe.dataset.id = recipe.id
+                divTagForRecipe.setAttribute("class", `recipeContainer`)
 
                 pTagForDescription = document.createElement("p");
                 pTagForDescription.innerText = recipe.description
@@ -77,6 +85,18 @@ function moreRecipeInfoFetch(lawId, recipeId){
                 pTagForRecipe.appendChild(pTagForIngredients)
                 pTagForRecipe.appendChild(pTagForInstructions)
                 pTagForRecipe.appendChild(pTagForYield)
+            
+                let commentForm = document.createElement("form")
+                let commentField = document.createElement("input")
+                let userField = document.createElement("input")
+                let button = document.createElement("button")
+                
+                commentForm.append(commentField)
+                commentForm.append(userField)
+                commentForm.append(button)
+                let recipeContainerqs = document.querySelector(".recipeContainer")   
+                console.log(recipeContainerqs)
+                recipeContainerqs.appendChild(commentForm)
             }
         })
     })
@@ -85,7 +105,7 @@ function moreRecipeInfoFetch(lawId, recipeId){
 
 
 // fetching from my API for the laws
-fetch(`http://localhost:3000/laws`)
+fetch(`${lawsURL}`)
     .then(resp => resp.json())
     .then(dataLaw => renderLaws(dataLaw))
 
@@ -102,27 +122,3 @@ function renderLaws(dataLaw) {
         ulLaws.append(divTagForLaw)
     });
 }
-
-// commentForm.innerHTML = `
-//           <h3> Add New Comment </h3>
-//           <label for="new-comment">New Comment</label>
-//           <br>
-//             <input type = "text" data-id = ${recipeId} name="name",id="new-comment" placeholder="Enter a new comment..." class="input.text">
-//               <br>
-//             <label for="user">Name</label>
-//                <br>
-//             <input type = "text" name="user",id="new-user" placeholder="Enter your name..." class="input.text">
-//                  <br>
-//               <input id = "add-comment" type="submit" name="submit" value="Add New Comment" class="submit">
-//           `
-
-
-
-
-
-
-
-
-
-
-          
