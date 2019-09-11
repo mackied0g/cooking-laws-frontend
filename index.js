@@ -1,5 +1,6 @@
-// const loginForm = document.querySelector('#div')
+// const commentForm = document.getElementById('newcomment');
 const ulLaws = document.querySelector(".list-of-laws");
+
 document.addEventListener("click", () => {
     handleClicks()
 })
@@ -102,22 +103,26 @@ function renderLaws(dataLaw) {
     });
 }
 
-
-
-// I want to be able to show a list of users that a User can select, and once they click on their name the DOM would change to a welcome ${user} and show a section of the recipes they favorited. 
-function fetchUsers(){
-    fetch(`http://localhost:3000/users`)
-    .then(resp => resp.json())
-    .then(login)
-}
-
-function login(user){
-    const userDiv = document.querySelector(".div-of-users")
-    const li = document.createElement("li");
-    li.innerText = `${user.name}`
-    ul.append(li)
-}
+// commentForm.innerHTML = `
+//           <h3> Add New Comment </h3>
+//           <label for="new-comment">New Comment</label>
+//           <br>
+//             <input type = "text" data-id = ${recipeId} name="name",id="new-comment" placeholder="Enter a new comment..." class="input.text">
+//               <br>
+//             <label for="user">Name</label>
+//                <br>
+//             <input type = "text" name="user",id="new-user" placeholder="Enter your name..." class="input.text">
+//                  <br>
+//               <input id = "add-comment" type="submit" name="submit" value="Add New Comment" class="submit">
+//           `
 
 
 
-// Create a list to show favorite recipes. Underneath all of the laws
+
+
+
+
+
+
+
+          
