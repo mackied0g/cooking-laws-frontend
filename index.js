@@ -87,16 +87,25 @@ function moreRecipeInfoFetch(lawId, recipeId){
                 pTagForRecipe.appendChild(pTagForYield)
             
                 let commentForm = document.createElement("form")
-                let commentField = document.createElement("input")
-                let userField = document.createElement("input")
-                let button = document.createElement("button")
-                
-                commentForm.append(commentField)
-                commentForm.append(userField)
-                commentForm.append(button)
                 let recipeContainerqs = document.querySelector(".recipeContainer")   
-                console.log(recipeContainerqs)
+                // // console.log(recipeContainerqs)
+
+                commentForm.innerHTML = `
+                <h3> Add New Comment for ${recipe.name} </h3>
+                <label for="new-comment">New Comment</label>
+                <br>
+                    <input type = "text" data-id = ${recipe.id} name="name",id="new-comment" placeholder="Enter a new comment..." class="input.text">
+                    <br>
+                    <label for="user"> Full name</label>
+                    <br>
+                    <input type = "text" name="user",id="new-user" placeholder="Enter your name..." class="input.text">
+                        <br>
+                        <br>
+                    <input id = "add-comment" type="submit" name="submit" value="Add New Comment" class="submit">
+                `
                 recipeContainerqs.appendChild(commentForm)
+
+                commentForm.reset()
             }
         })
     })
