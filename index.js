@@ -1,5 +1,5 @@
 // const loginForm = document.querySelector('#div')
-const ulLaws = document.querySelector(".ul-of-laws");
+const ulLaws = document.querySelector(".list-of-laws");
 document.addEventListener("click", () => {
     handleClicks()
 })
@@ -104,7 +104,7 @@ function renderLaws(dataLaw) {
 
 
 
-
+// I want to be able to show a list of users that a User can select, and once they click on their name the DOM would change to a welcome ${user} and show a section of the recipes they favorited. 
 function fetchUsers(){
     fetch(`http://localhost:3000/users`)
     .then(resp => resp.json())
@@ -112,8 +112,12 @@ function fetchUsers(){
 }
 
 function login(user){
-    const ul = document.createElement("ul")
+    const userDiv = document.querySelector(".div-of-users")
     const li = document.createElement("li");
-    li.innerHTML = ``
+    li.innerText = `${user.name}`
     ul.append(li)
 }
+
+
+
+// Create a list to show favorite recipes. Underneath all of the laws
