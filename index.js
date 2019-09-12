@@ -8,15 +8,17 @@ document.addEventListener("click", () => {
     handleClicks()
 })
 
-document.addEventListener("submit", (event) => {
+lawForm.addEventListener("submit", (event) => {
     event.preventDefault();    
-    let newLawValue = document.querySelector("#newlaw").value;
-    let newDescriptionValue = document.querySelector("#newdescription").value;
+    
+        console.log("Hey")
+        let newLawValue = document.querySelector("#newlaw").value;
+        let newDescriptionValue = document.querySelector("#newdescription").value;
 
-    if (event.target.id === "submit")
-        ulLaws.append(newLawValue)
-        ulLaws.innerHTML +=
-        `<div class="law"> ${ document.querySelector("#newlaw").value } </div>`
+        //optimistic rendering before delete button implemented
+        // ulLaws.append(newLawValue)
+        //     ulLaws.innerHTML +=
+        // `<div class="law"> ${ document.querySelector("#newlaw").value } `
 
         fetch(lawsURL, {
             method: "POST",
@@ -31,8 +33,12 @@ document.addEventListener("submit", (event) => {
             
         })
         .then(resp => resp.json())
-        .then(console.log)
-        lawForm.reset()
+        .then(data => {console.log(data)
+            lawForm.reset()
+            appendLawDiv(data)
+        })
+        
+    
 }) //end of submit 
 
 function handleClicks() {
@@ -46,8 +52,32 @@ function handleClicks() {
             let recipeId = event.target.id
             moreRecipeInfoFetch(lawId, recipeId)
         }
+        else if (event.target.id == "delete"){
+            deleteLaw(event)
+        }
 } //end of handleClicks
 
+function deleteLaw(event) {
+    const dataId = event.target.dataset.id 
+    fetch(lawsURL+`/${dataId}`, {
+    method: "DELETE", 
+    headers: {
+    "Accept": "application/json"
+    }
+    })
+    .then(resp => resp.json())
+    .then(data => {
+        deleteLawDiv(event)
+    })    
+}
+
+function deleteLawDiv(event) {
+    let brToDelete = event.target.previousElementSibling
+    let divToDelete = brToDelete.previousElementSibling
+    divToDelete.remove();
+    brToDelete.remove();
+    event.target.remove()
+}
 
 function lawRecipeFetch(lawId){
     fetch(`${lawsURL}/${lawId}`)
@@ -113,25 +143,29 @@ fetch(`${lawsURL}`)
     .then(resp => resp.json())
     .then(dataLaw => renderLaws(dataLaw))
     // taking the fetch request and rendering it to the DOM
+    
     function renderLaws(dataLaw) {
     dataLaw.forEach(function(law) {
-        const divTagForLaw = document.createElement("div");
-        divTagForLaw.setAttribute("class", "law")
-        divTagForLaw.setAttribute("id", `${law.id}`)
-
-        //create delete button for each Law
-        let deleteBtn = document.createElement("button");
-            deleteBtn.id = "delete";
-            deleteBtn.className = 'delete-btn'
-            deleteBtn.dataset.id = law.id;
-            deleteBtn.innerText = `Delete ${law.name}`;
-            
-            const br = document.createElement('br');
-            divTagForLaw.innerText = law.name
-            ulLaws.append(br)
-            ulLaws.append(divTagForLaw)
-            ulLaws.append(br)
-            ulLaws.append(deleteBtn)
-            // ulLaws.append(br)
+        appendLawDiv(law)
     });
+}
+
+function appendLawDiv(law){
+    const divTagForLaw = document.createElement("div");
+    divTagForLaw.setAttribute("class", "law")
+    divTagForLaw.setAttribute("id", `${law.id}`)
+
+    //create delete button for each Law
+    let deleteBtn = document.createElement("button");
+    deleteBtn.id = "delete";
+    deleteBtn.className = 'delete-btn'
+    deleteBtn.dataset.id = law.id;
+    deleteBtn.innerText = `Delete ${law.name}`;
+
+    const br = document.createElement('br');
+    divTagForLaw.innerText = law.name
+    ulLaws.append(br)
+    ulLaws.append(divTagForLaw)
+    ulLaws.append(br)
+    ulLaws.append(deleteBtn)
 }
