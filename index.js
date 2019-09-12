@@ -2,7 +2,7 @@
 const ulLaws = document.querySelector(".list-of-laws");
 const lawsURL = `http://localhost:3000/laws`;
 const recipesURL = `http://localhost:3000/recipes`;
-const commentsURL = `http://localhost:3000/comments`;
+const lawForm = document.querySelector("#form")
 
 document.addEventListener("click", () => {
     handleClicks()
@@ -34,6 +34,7 @@ document.addEventListener("submit", (event) => {
         })
         .then(resp => resp.json())
         .then(console.log)
+        lawForm.reset()
 })
 
 function handleClicks() {
@@ -111,7 +112,7 @@ function moreRecipeInfoFetch(lawId, recipeId){
                 divTagForRecipe.appendChild(pTagForInstructions)
                 divTagForRecipe.appendChild(pTagForYield)
 
-                let lawForm = document.querySelector("#form")
+                
                 let recipeContainerqs = document.querySelector(".recipeContainer")   
                 // console.log(recipeContainerqs)
                 // // console.log(recipeContainerqs)
