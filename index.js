@@ -10,10 +10,9 @@ document.addEventListener("click", () => {
 
 document.addEventListener("submit", (event) => {
     event.preventDefault();    
-
     let newLawValue = document.querySelector("#newlaw").value;
     let newDescriptionValue = document.querySelector("#newdescription").value;
-       
+
     if (event.target.id === "submit")
         ulLaws.append(newLawValue)
         ulLaws.innerHTML +=
@@ -28,14 +27,13 @@ document.addEventListener("submit", (event) => {
             body: JSON.stringify({
                 name: newLawValue,
                 description: newDescriptionValue,
-                recipe_id: 1
             })
             
         })
         .then(resp => resp.json())
         .then(console.log)
         lawForm.reset()
-})
+}) //end of submit 
 
 function handleClicks() {
     // debugger
@@ -48,7 +46,7 @@ function handleClicks() {
             let recipeId = event.target.id
             moreRecipeInfoFetch(lawId, recipeId)
         }
-}
+} //end of handleClicks
 
 
 function lawRecipeFetch(lawId){
@@ -63,11 +61,9 @@ function lawRecipeFetch(lawId){
                 liTagForRecipe.innerText += singleRecipeObject.name
                 divTagForLaw.append(liTagForRecipe)
                 document.getElementById(`${law.id}`).append(divTagForLaw)
-                // divTagForLaw.append(singleRecipeObject)
             })
         })
-}
-
+} //end of lawRecipeFetch
 
 function moreRecipeInfoFetch(lawId, recipeId){
     fetch(`${lawsURL}/${lawId}`)
@@ -75,13 +71,11 @@ function moreRecipeInfoFetch(lawId, recipeId){
         .then(lawObject => {
             let recipeOfLawObject = lawObject.recipes
             recipeOfLawObject.forEach((obj) => {
-            
             if(obj.id == recipeId ){
                 let recipe = obj
                 
                 const divTagForRecipe = document.createElement("div");
                 divTagForRecipe.dataset.id = recipe.id
-                divTagForRecipe.setAttribute("class", `recipeContainer`)
 
                 pTagForDescription = document.createElement("p");
                 pTagForDescription.innerText = recipe.description
@@ -89,7 +83,7 @@ function moreRecipeInfoFetch(lawId, recipeId){
                 // pTagForRecipe.innerText += recipe.description
 
                 pTagForYield = document.createElement("p");
-                pTagForYield.innerText = recipe.yield 
+                pTagForYield.innerText = `Serves ${recipe.yield}`
                 pTagForYield.setAttribute("class", `pTagForYield`)
                 // pTagForRecipe.innerText += recipe.yield
 
@@ -103,20 +97,11 @@ function moreRecipeInfoFetch(lawId, recipeId){
                 pTagForInstructions.setAttribute("class", `pTagForInstructions`)
                 // pTagForRecipe.innerText += recipe.instructions
                 
-            //    pTagForComment.innerText = 
-                
                 document.getElementById(`${recipeId}`).append(divTagForRecipe)
-                    
+                divTagForRecipe.appendChild(pTagForYield)
                 divTagForRecipe.appendChild(pTagForDescription)
                 divTagForRecipe.appendChild(pTagForIngredients)
                 divTagForRecipe.appendChild(pTagForInstructions)
-                divTagForRecipe.appendChild(pTagForYield)
-
-                
-                let recipeContainerqs = document.querySelector(".recipeContainer")   
-                // console.log(recipeContainerqs)
-                // // console.log(recipeContainerqs)
-
 
             } //end of if statement 
         })
@@ -135,8 +120,8 @@ function renderLaws(dataLaw) {
         divTagForLaw.setAttribute("id", `${law.id}`)
         const br = document.createElement('br');
         divTagForLaw.innerText = law.name;
-        const recipesForLaw = law.recipes
         ulLaws.append(br)
         ulLaws.append(divTagForLaw)
+        ulLaws.append(br)
     });
 }
