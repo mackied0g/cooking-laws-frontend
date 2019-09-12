@@ -8,6 +8,34 @@ document.addEventListener("click", () => {
     handleClicks()
 })
 
+document.addEventListener("submit", (event) => {
+    event.preventDefault();    
+
+    let newLawValue = document.querySelector("#newlaw").value;
+    let newDescriptionValue = document.querySelector("#newdescription").value;
+       
+    if (event.target.id === "submit")
+        ulLaws.append(newLawValue)
+        ulLaws.innerHTML +=
+        `<div class="law"> ${ document.querySelector("#newlaw").value } </div>`
+
+        fetch(lawsURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                name: newLawValue,
+                description: newDescriptionValue,
+                recipe_id: 1
+            })
+            
+        })
+        .then(resp => resp.json())
+        .then(console.log)
+})
+
 function handleClicks() {
     // debugger
     if (event.target.classList == "law" && event.target.id) {
@@ -17,11 +45,7 @@ function handleClicks() {
         else if (event.target.id && event.target.classList == "recipe") {  
             let lawId = event.target.parentElement.parentElement.id
             let recipeId = event.target.id
-
-
             moreRecipeInfoFetch(lawId, recipeId)
-
-
         }
 }
 
@@ -53,7 +77,7 @@ function moreRecipeInfoFetch(lawId, recipeId){
             
             if(obj.id == recipeId ){
                 let recipe = obj
-                const pTagForRecipe = document.createElement('p');
+                
                 const divTagForRecipe = document.createElement("div");
                 divTagForRecipe.dataset.id = recipe.id
                 divTagForRecipe.setAttribute("class", `recipeContainer`)
@@ -77,43 +101,27 @@ function moreRecipeInfoFetch(lawId, recipeId){
                 pTagForInstructions.innerText = recipe.instructions
                 pTagForInstructions.setAttribute("class", `pTagForInstructions`)
                 // pTagForRecipe.innerText += recipe.instructions
-
-                divTagForRecipe.append(pTagForRecipe)
+                
+            //    pTagForComment.innerText = 
+                
                 document.getElementById(`${recipeId}`).append(divTagForRecipe)
                     
-                pTagForRecipe.appendChild(pTagForDescription)
-                pTagForRecipe.appendChild(pTagForIngredients)
-                pTagForRecipe.appendChild(pTagForInstructions)
-                pTagForRecipe.appendChild(pTagForYield)
-            
-                let commentForm = document.createElement("form")
+                divTagForRecipe.appendChild(pTagForDescription)
+                divTagForRecipe.appendChild(pTagForIngredients)
+                divTagForRecipe.appendChild(pTagForInstructions)
+                divTagForRecipe.appendChild(pTagForYield)
+
+                let lawForm = document.querySelector("#form")
                 let recipeContainerqs = document.querySelector(".recipeContainer")   
+                // console.log(recipeContainerqs)
                 // // console.log(recipeContainerqs)
 
-                commentForm.innerHTML = `
-                <h3> Add New Comment for ${recipe.name} </h3>
-                <label for="new-comment">New Comment</label>
-                <br>
-                    <input type = "text" data-id = ${recipe.id} name="name",id="new-comment" placeholder="Enter a new comment..." class="input.text">
-                    <br>
-                    <label for="user"> Full name</label>
-                    <br>
-                    <input type = "text" name="user",id="new-user" placeholder="Enter your name..." class="input.text">
-                        <br>
-                        <br>
-                    <input id = "add-comment" type="submit" name="submit" value="Add New Comment" class="submit">
-                `
-                recipeContainerqs.appendChild(commentForm)
 
-                commentForm.reset()
-            }
+            } //end of if statement 
         })
     })
 }
 
-
-
-// fetching from my API for the laws
 fetch(`${lawsURL}`)
     .then(resp => resp.json())
     .then(dataLaw => renderLaws(dataLaw))
