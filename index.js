@@ -61,6 +61,7 @@ function lawRecipeFetch(lawId){
                 liTagForRecipe.innerText += singleRecipeObject.name
                 divTagForLaw.append(liTagForRecipe)
                 document.getElementById(`${law.id}`).append(divTagForLaw)
+
             })
         })
 } //end of lawRecipeFetch
@@ -111,17 +112,26 @@ function moreRecipeInfoFetch(lawId, recipeId){
 fetch(`${lawsURL}`)
     .then(resp => resp.json())
     .then(dataLaw => renderLaws(dataLaw))
-
-// taking the fetch request and rendering it to the DOM
-function renderLaws(dataLaw) {
+    // taking the fetch request and rendering it to the DOM
+    function renderLaws(dataLaw) {
     dataLaw.forEach(function(law) {
         const divTagForLaw = document.createElement("div");
         divTagForLaw.setAttribute("class", "law")
         divTagForLaw.setAttribute("id", `${law.id}`)
-        const br = document.createElement('br');
-        divTagForLaw.innerText = law.name;
-        ulLaws.append(br)
-        ulLaws.append(divTagForLaw)
-        ulLaws.append(br)
+
+        //create delete button for each Law
+        let deleteBtn = document.createElement("button");
+            deleteBtn.id = "delete";
+            deleteBtn.className = 'delete-btn'
+            deleteBtn.dataset.id = law.id;
+            deleteBtn.innerText = `Delete ${law.name}`;
+            
+            const br = document.createElement('br');
+            divTagForLaw.innerText = law.name
+            ulLaws.append(br)
+            ulLaws.append(divTagForLaw)
+            ulLaws.append(br)
+            ulLaws.append(deleteBtn)
+            // ulLaws.append(br)
     });
 }
