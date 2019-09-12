@@ -1,4 +1,3 @@
-// const commentForm = document.querySelector('newcomment');
 const ulLaws = document.querySelector(".list-of-laws");
 const lawsURL = `http://localhost:3000/laws`;
 const recipesURL = `http://localhost:3000/recipes`;
@@ -10,8 +9,6 @@ document.addEventListener("click", () => {
 
 lawForm.addEventListener("submit", (event) => {
     event.preventDefault();    
-    
-        console.log("Hey")
         let newLawValue = document.querySelector("#newlaw").value;
         let newDescriptionValue = document.querySelector("#newdescription").value;
 
@@ -87,11 +84,11 @@ function lawRecipeFetch(lawId){
                 const liTagForRecipe = document.createElement('li');
                 const divTagForLaw = document.createElement("div");
                 liTagForRecipe.setAttribute("id", `${singleRecipeObject.id}`)
+                liTagForRecipe.setAttribute("data-lawId", `${lawId}`)
                 liTagForRecipe.setAttribute("class", `recipe`)
                 liTagForRecipe.innerText += singleRecipeObject.name
                 divTagForLaw.append(liTagForRecipe)
                 document.getElementById(`${law.id}`).append(divTagForLaw)
-
             })
         })
 } //end of lawRecipeFetch
@@ -104,8 +101,8 @@ function moreRecipeInfoFetch(lawId, recipeId){
             recipeOfLawObject.forEach((obj) => {
             if(obj.id == recipeId ){
                 let recipe = obj
-                
                 const divTagForRecipe = document.createElement("div");
+                divTagForRecipe.setAttribute("class", `moreInfoForRecipe`)
                 divTagForRecipe.dataset.id = recipe.id
 
                 pTagForDescription = document.createElement("p");
