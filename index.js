@@ -3,7 +3,7 @@ const lawsURL = `http://localhost:3000/laws`;
 const recipesURL = `http://localhost:3000/recipes`;
 const lawForm = document.querySelector("#form")
 
-document.addEventListener("click", () => {
+document.addEventListener("click", (event) => {
     handleClicks()
 })
 
@@ -11,12 +11,7 @@ lawForm.addEventListener("submit", (event) => {
     event.preventDefault();    
         let newLawValue = document.querySelector("#newlaw").value;
         let newDescriptionValue = document.querySelector("#newdescription").value;
-
-        //optimistic rendering before delete button implemented
-        // ulLaws.append(newLawValue)
-        //     ulLaws.innerHTML +=
-        // `<div class="law"> ${ document.querySelector("#newlaw").value } `
-
+        //when I hit submit, make a fetch post request to make a new law.
         fetch(lawsURL, {
             method: "POST",
             headers: {
@@ -29,30 +24,66 @@ lawForm.addEventListener("submit", (event) => {
             })
             
         })
-        .then(resp => resp.json())
-        .then(data => {console.log(data)
+        .then(banana => banana.json())
+        .then(data => {
+            //returns object created
             lawForm.reset()
             appendLawDiv(data)
         })
-        
-    
 }) //end of submit 
 
 function handleClicks() {
     // debugger
     if (event.target.classList == "law" && event.target.id) {
-        let lawId = event.target.id;
+        let lawId = event.target.dataset.id
+        // console.log(lawId)
         lawRecipeFetch(lawId)
     }
         else if (event.target.id && event.target.classList == "recipe") {  
-            let lawId = event.target.parentElement.parentElement.id
+            let lawId = event.target.dataset.lawid
+            // console.log(lawId, "<- lawId, event.target -> ", event.target)
             let recipeId = event.target.id
             moreRecipeInfoFetch(lawId, recipeId)
         }
         else if (event.target.id == "delete"){
             deleteLaw(event)
         }
+        
+        else if (event.target.classList == "reverse-btn"){
+            reverseLawFetch(event)
+        }
 } //end of handleClicks
+
+
+function reverseLawFetch(event) {
+    // console.log(event.target.id)
+    const dataButtonId = event.target.dataset.id 
+    console.log(event.target.id)
+    let lawNameReverse = document.getElementById(`${dataButtonId}`)
+    // BELOW IS THE NAME OF THE LAW
+    console.log(lawNameReverse.innerText)
+    fetch(lawsURL+`/${dataButtonId}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            name: lawNameReverse.innerText
+        })
+    })
+    .then(resp => resp.json())
+    .then(data => {
+        reverseLaw(event)
+    }) 
+}
+function reverseLaw(event) {
+    // console.log(event.target.id)
+    let reverseLawDataId = event.target.dataset.id
+    let divToPatch  = event.target.previousElementSibling.previousElementSibling.previousElementSibling
+    // console.log(divToPatch)
+}
+
 
 function deleteLaw(event) {
     const dataId = event.target.dataset.id 
@@ -77,24 +108,30 @@ function deleteLawDiv(event) {
 }
 
 function lawRecipeFetch(lawId){
-    fetch(`${lawsURL}/${lawId}`)
+    console.log(lawId)
+    const notBLawId = event.target.dataset.id
+    fetch(`${lawsURL}/${notBLawId}`)
         .then(resp => resp.json())
         .then(law => {
+            //Law object 
             law.recipes.forEach(singleRecipeObject => {
                 const liTagForRecipe = document.createElement('li');
                 const divTagForLaw = document.createElement("div");
+                // debugger
+                divTagForLaw.setAttribute("id", `${law.id}`)
                 liTagForRecipe.setAttribute("id", `${singleRecipeObject.id}`)
                 liTagForRecipe.setAttribute("data-lawId", `${lawId}`)
                 liTagForRecipe.setAttribute("class", `recipe`)
                 liTagForRecipe.innerText += singleRecipeObject.name
+                document.getElementById(`b${law.id}`).append(divTagForLaw)
                 divTagForLaw.append(liTagForRecipe)
-                document.getElementById(`${law.id}`).append(divTagForLaw)
             })
         })
 } //end of lawRecipeFetch
 
 function moreRecipeInfoFetch(lawId, recipeId){
-    fetch(`${lawsURL}/${lawId}`)
+    let notBLawId = event.target.data.id
+    fetch(`${lawsURL}/${notBLawId}`)
         .then(resp => resp.json())
         .then(lawObject => {
             let recipeOfLawObject = lawObject.recipes
@@ -140,8 +177,8 @@ fetch(`${lawsURL}`)
     .then(resp => resp.json())
     .then(dataLaw => renderLaws(dataLaw))
     // taking the fetch request and rendering it to the DOM
-    
     function renderLaws(dataLaw) {
+        // dataLaw = array of law objects!
     dataLaw.forEach(function(law) {
         appendLawDiv(law)
     });
@@ -150,8 +187,11 @@ fetch(`${lawsURL}`)
 function appendLawDiv(law){
     const divTagForLaw = document.createElement("div");
     divTagForLaw.setAttribute("class", "law")
-    divTagForLaw.setAttribute("id", `${law.id}`)
-
+    // WHERE I ADD THE B
+    divTagForLaw.setAttribute("id", `b${law.id}`)
+    // MAKE THE DATASET THE ID 
+    divTagForLaw.dataset.id = `${law.id}`
+    // console.log(law)
     //create delete button for each Law
     let deleteBtn = document.createElement("button");
     deleteBtn.id = "delete";
@@ -159,10 +199,25 @@ function appendLawDiv(law){
     deleteBtn.dataset.id = law.id;
     deleteBtn.innerText = `Delete ${law.name}`;
 
+    //create a reverse button for each Law
+    let reverseButton = document.createElement("button");
+    reverseButton.id = `${law.id}`;
+    // console.log(reverseButton)
+    reverseButton.className = 'reverse-btn'
+    reverseButton.dataset.id = law.id;
+    reverseButton.innerText = `Reverse ${law.name}`;
+
+
     const br = document.createElement('br');
     divTagForLaw.innerText = law.name
     ulLaws.append(br)
     ulLaws.append(divTagForLaw)
     ulLaws.append(br)
     ulLaws.append(deleteBtn)
+    ulLaws.append(reverseButton)
+    
+    // debugger
 }
+
+
+    // console.log(law.name)
