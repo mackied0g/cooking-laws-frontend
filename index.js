@@ -33,7 +33,6 @@ lawForm.addEventListener("submit", (event) => {
 }) //end of submit 
 
 function handleClicks() {
-    // debugger
     if (event.target.classList == "law" && event.target.id) {
         let lawId = event.target.dataset.id
         // console.log(lawId)
@@ -58,10 +57,13 @@ function handleClicks() {
 function reverseLawFetch(event) {
     // console.log(event.target.id)
     const dataButtonId = event.target.dataset.id 
-    console.log(event.target.id)
+    // console.log(event.target.id)
     let lawNameReverse = document.getElementById(`${dataButtonId}`)
+    let thatLaw = lawNameReverse.previousElementSibling.previousElementSibling
+    let thatLawName = thatLaw.innerText
+    let reversedName = thatLawName.split("").reverse().join("")
     // BELOW IS THE NAME OF THE LAW
-    console.log(lawNameReverse.innerText)
+    // console.log(lawNameReverse.innerText)
     fetch(lawsURL+`/${dataButtonId}`, {
         method: "PATCH",
         headers: {
@@ -69,7 +71,7 @@ function reverseLawFetch(event) {
             "Accept": "application/json"
         },
         body: JSON.stringify({
-            name: lawNameReverse.innerText
+            name: reversedName
         })
     })
     .then(resp => resp.json())
@@ -78,12 +80,13 @@ function reverseLawFetch(event) {
     }) 
 }
 function reverseLaw(event) {
-    // console.log(event.target.id)
-    let reverseLawDataId = event.target.dataset.id
-    let divToPatch  = event.target.previousElementSibling.previousElementSibling.previousElementSibling
-    // console.log(divToPatch)
+    // // console.log(event.target.id)
+        let lawNameReverse = document.getElementById(`${event.target.id}`)
+        let thatLaw = lawNameReverse.previousElementSibling.previousElementSibling
+        let thatLawName = thatLaw.innerText
+        console.log(thatLawName)
+        thatLawName.split("").reverse().join("")
 }
-
 
 function deleteLaw(event) {
     const dataId = event.target.dataset.id 
@@ -103,12 +106,11 @@ function deleteLawDiv(event) {
     let brToDelete = event.target.previousElementSibling
     let divToDelete = brToDelete.previousElementSibling
     divToDelete.remove();
-    brToDelete.remove();
     event.target.remove()
 }
 
 function lawRecipeFetch(lawId){
-    console.log(lawId)
+    // console.log(lawId)
     const notBLawId = event.target.dataset.id
     fetch(`${lawsURL}/${notBLawId}`)
         .then(resp => resp.json())
@@ -117,7 +119,6 @@ function lawRecipeFetch(lawId){
             law.recipes.forEach(singleRecipeObject => {
                 const liTagForRecipe = document.createElement('li');
                 const divTagForLaw = document.createElement("div");
-                // debugger
                 divTagForLaw.setAttribute("id", `${law.id}`)
                 liTagForRecipe.setAttribute("id", `${singleRecipeObject.id}`)
                 liTagForRecipe.setAttribute("data-lawId", `${lawId}`)
@@ -206,17 +207,16 @@ function appendLawDiv(law){
     reverseButton.className = 'reverse-btn'
     reverseButton.dataset.id = law.id;
     reverseButton.innerText = `Reverse ${law.name}`;
+    // console.log(law.name)
 
 
     const br = document.createElement('br');
     divTagForLaw.innerText = law.name
     ulLaws.append(br)
     ulLaws.append(divTagForLaw)
-    ulLaws.append(br)
+
     ulLaws.append(deleteBtn)
     ulLaws.append(reverseButton)
-    
-    // debugger
 }
 
 
