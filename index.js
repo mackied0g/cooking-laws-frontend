@@ -55,13 +55,12 @@ function handleClicks() {
 
 
 function reverseLawFetch(event) {
-    // console.log(event.target.id)
     const dataButtonId = event.target.dataset.id 
-    // console.log(event.target.id)
     let lawNameReverse = document.getElementById(`${dataButtonId}`)
     let thatLaw = lawNameReverse.previousElementSibling.previousElementSibling
     let thatLawName = thatLaw.innerText
     let reversedName = thatLawName.split("").reverse().join("")
+
     // BELOW IS THE NAME OF THE LAW
     // console.log(lawNameReverse.innerText)
     fetch(lawsURL+`/${dataButtonId}`, {
@@ -80,12 +79,13 @@ function reverseLawFetch(event) {
     }) 
 }
 function reverseLaw(event) {
-    // // console.log(event.target.id)
         let lawNameReverse = document.getElementById(`${event.target.id}`)
         let thatLaw = lawNameReverse.previousElementSibling.previousElementSibling
         let thatLawName = thatLaw.innerText
-        console.log(thatLawName)
-        thatLawName.split("").reverse().join("")
+        let thatLawNameReversed = thatLawName.split("").reverse().join("")
+        console.log(thatLawNameReversed)
+        thatLaw.append(thatLaw.innerText = "")
+        thatLaw.append(thatLawNameReversed)
 }
 
 function deleteLaw(event) {
@@ -103,9 +103,12 @@ function deleteLaw(event) {
 }
 
 function deleteLawDiv(event) {
-    let brToDelete = event.target.previousElementSibling
-    let divToDelete = brToDelete.previousElementSibling
-    divToDelete.remove();
+    let divToBeDeleted = event.target.previousElementSibling
+    let deleteReverseButton = event.target.nextElementSibling
+    console.log(deleteReverseButton)
+    // console.log(divToBeDeleted)
+    divToBeDeleted.remove()
+    deleteReverseButton.remove()
     event.target.remove()
 }
 
